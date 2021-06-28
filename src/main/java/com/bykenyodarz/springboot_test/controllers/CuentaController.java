@@ -1,18 +1,19 @@
 package com.bykenyodarz.springboot_test.controllers;
 
-import static org.springframework.http.HttpStatus.*;
 import com.bykenyodarz.springboot_test.models.Cuenta;
 import com.bykenyodarz.springboot_test.models.viewmodels.TransactionDTO;
 import com.bykenyodarz.springboot_test.services.CuentaService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+import static org.springframework.http.HttpStatus.ACCEPTED;
+import static org.springframework.http.HttpStatus.OK;
+
+@RestController
 @RequestMapping("/api/cuentas")
 public class CuentaController {
 
@@ -29,7 +30,7 @@ public class CuentaController {
     }
 
     @PostMapping("/transferir")
-    public ResponseEntity<?> transferir(@RequestBody TransactionDTO dto){
+    public ResponseEntity<?> transferir(@RequestBody TransactionDTO dto) {
         service.transferir(dto.getCuentaOrigenId(), dto.getCuentaDestinoId(),
                 dto.getMonto(), dto.getBancoId());
 
@@ -43,7 +44,6 @@ public class CuentaController {
         return ResponseEntity.status(ACCEPTED).body(response);
 
     }
-
 
 
 }
