@@ -3,9 +3,11 @@ package com.bykenyodarz.springboot_test.services;
 import com.bykenyodarz.springboot_test.models.Cuenta;
 import com.bykenyodarz.springboot_test.repositories.BancoRepository;
 import com.bykenyodarz.springboot_test.repositories.CuentaRepository;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+@Service
 public class CuentaServiceImpl implements CuentaService{
 
     private final CuentaRepository cuentaRepository;

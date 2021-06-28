@@ -9,7 +9,11 @@ import com.bykenyodarz.springboot_test.services.CuentaService;
 import com.bykenyodarz.springboot_test.services.CuentaServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.math.BigDecimal;
 
@@ -20,17 +24,20 @@ import static org.mockito.Mockito.*;
 @SpringBootTest
 class SpringbootTestApplicationTests {
 
+    @MockBean
     CuentaRepository cuentaRepository;
+    @MockBean
     BancoRepository bancoRepository;
 
+    @Autowired
     CuentaService service;
 
-    @BeforeEach
-    void setUp() {
-        cuentaRepository = mock(CuentaRepository.class);
-        bancoRepository = mock(BancoRepository.class);
-        service = new CuentaServiceImpl(cuentaRepository, bancoRepository);
-    }
+//    @BeforeEach
+//    void setUp() {
+//        cuentaRepository = mock(CuentaRepository.class);
+//        bancoRepository = mock(BancoRepository.class);
+//        service = new CuentaServiceImpl(cuentaRepository, bancoRepository);
+//    }
 
     @Test
     void contextLoads() {
@@ -88,6 +95,9 @@ class SpringbootTestApplicationTests {
                 () -> assertThrows(DineroInsuficienteException.class, () -> {
                     service.transferir(1L, 2L, new BigDecimal("1200"), 1L);
                 })
+//                () -> assertThrows(DineroInsuficienteException.class, () -> {
+//                    service.findById(1L);
+//                })
         );
 
         var saldoOrigen2 = service.revisarSaldo(1L);
@@ -119,8 +129,8 @@ class SpringbootTestApplicationTests {
         // Given
         when(cuentaRepository.findById(1L)).thenReturn(crearCuenta001());
 
-        var cuenta1 = cuentaRepository.findById(1L);
-        var cuenta2 = cuentaRepository.findById(1L);
+        var cuenta1 = service.findById(1L);
+        var cuenta2 = service.findById(1L);
 
         assertSame(cuenta1, cuenta2);
         verify(cuentaRepository, times(2)).findById(1L);
