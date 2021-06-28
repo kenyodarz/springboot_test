@@ -1,9 +1,0 @@
-spring:
-  main:
-    banner-mode: OFF
-
-logging:
-  level:
-    root: OFF
-    org.springframework: OFF
-    org.hibernate.SQL: debug

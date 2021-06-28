@@ -6,11 +6,7 @@ import com.bykenyodarz.springboot_test.models.Cuenta;
 import com.bykenyodarz.springboot_test.repositories.BancoRepository;
 import com.bykenyodarz.springboot_test.repositories.CuentaRepository;
 import com.bykenyodarz.springboot_test.services.CuentaService;
-import com.bykenyodarz.springboot_test.services.CuentaServiceImpl;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -44,7 +40,7 @@ class SpringbootTestApplicationTests {
         // Given
         when(cuentaRepository.findById(1L)).thenReturn(crearCuenta001());
         when(cuentaRepository.findById(2L)).thenReturn(crearCuenta002());
-        when(bancoRepository.findByID(1L)).thenReturn(crearBanco());
+        when(bancoRepository.findById(1L)).thenReturn(crearBanco());
 
         var saldoOrigen = service.revisarSaldo(1L);
         var saldoDestino = service.revisarSaldo(2L);
@@ -69,10 +65,10 @@ class SpringbootTestApplicationTests {
         /* All Verifies */
         verify(cuentaRepository, times(3)).findById(1L);
         verify(cuentaRepository, times(3)).findById(2L);
-        verify(cuentaRepository, times(2)).update(any(Cuenta.class));
+        verify(cuentaRepository, times(2)).save(any(Cuenta.class));
 
-        verify(bancoRepository, times(2)).findByID(1L);
-        verify(bancoRepository).update(any(Banco.class));
+        verify(bancoRepository, times(2)).findById(1L);
+        verify(bancoRepository).save(any(Banco.class));
         /* Verify never */
 
         verify(cuentaRepository, never()).findAll();
@@ -84,7 +80,7 @@ class SpringbootTestApplicationTests {
         // Given
         when(cuentaRepository.findById(1L)).thenReturn(crearCuenta001());
         when(cuentaRepository.findById(2L)).thenReturn(crearCuenta002());
-        when(bancoRepository.findByID(1L)).thenReturn(crearBanco());
+        when(bancoRepository.findById(1L)).thenReturn(crearBanco());
 
         var saldoOrigen = service.revisarSaldo(1L);
         var saldoDestino = service.revisarSaldo(2L);
@@ -113,10 +109,10 @@ class SpringbootTestApplicationTests {
         /* All Verifies */
         verify(cuentaRepository, times(3)).findById(1L);
         verify(cuentaRepository, times(2)).findById(2L);
-        verify(cuentaRepository, never()).update(any(Cuenta.class));
+        verify(cuentaRepository, never()).save(any(Cuenta.class));
 
-        verify(bancoRepository, times(1)).findByID(1L);
-        verify(bancoRepository, never()).update(any(Banco.class));
+        verify(bancoRepository, times(1)).findById(1L);
+        verify(bancoRepository, never()).save(any(Banco.class));
 
         /* Verify never */
 
