@@ -34,16 +34,18 @@ public class CuentaServiceImpl implements CuentaService{
 
     @Override
     public void transferir(Long numCuentaOrigen, Long numCuentaDestino, BigDecimal monto, Long bancoId) {
-        var banco = bancoRepository.findByID(bancoId);
-        int totalTransferencia = banco.getTotalTransferencia();
-        banco.setTotalTransferencia(++totalTransferencia);
-        bancoRepository.update(banco);
 
         var cuentaOrigen = cuentaRepository.findById(numCuentaOrigen);
         cuentaOrigen.debito(monto);
         cuentaRepository.update(cuentaOrigen);
+
         var cuentaDestino = cuentaRepository.findById(numCuentaDestino);
         cuentaDestino.credito(monto);
         cuentaRepository.update(cuentaDestino);
+
+        var banco = bancoRepository.findByID(bancoId);
+        int totalTransferencia = banco.getTotalTransferencia();
+        banco.setTotalTransferencia(++totalTransferencia);
+        bancoRepository.update(banco);
     }
 }
