@@ -3,6 +3,7 @@ package com.bykenyodarz.springboot_test.controllers;
 import com.bykenyodarz.springboot_test.models.Cuenta;
 import com.bykenyodarz.springboot_test.models.viewmodels.TransactionDTO;
 import com.bykenyodarz.springboot_test.services.CuentaService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +24,30 @@ public class CuentaController {
         this.service = service;
     }
 
+    @GetMapping
+    public ResponseEntity<?> listar() {
+        return ResponseEntity.ok().body(service.findAll());
+    }
+
     @GetMapping("/{id}")
     @ResponseStatus(OK)
     public Cuenta detalle(@PathVariable Long id) {
         return service.findById(id);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> guardar(@RequestBody Cuenta cuenta) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.save(cuenta));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        var cuenta = service.findById(id);
+        if (cuenta == null) {
+         return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body("La cuenta ha sido eliminada correctamente");
+
     }
 
     @PostMapping("/transferir")
